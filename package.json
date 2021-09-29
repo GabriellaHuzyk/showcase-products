@@ -1,0 +1,23 @@
+{
+  "name": "showcase-aftersale",
+  "version": "1.0.0",
+  "description": "This is a showcase application of products with a public api how Fake Store Api",
+  "main": "index.js",
+  "author": "Gabriella Huzyk",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "axios": "^0.21.4",
+    "express": "^4.17.1",
+    "node": "^16.6.1",
+    "node-js": "^1.0.0",
+    "nodemon": "^2.0.12",
+    "sequelize": "^6.6.5",
+    "sqlite3": "^5.0.2"
+  },
+  "optionalDependencies": {
+    "fsevents": "^2.3.2"
+  }
+}
