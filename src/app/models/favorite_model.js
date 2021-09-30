@@ -29,4 +29,4 @@ Favorite.associate = (models) => {
   });
 };
 
-sequelize.sync();
+module.exports = { Favorite, sync: () => sequelize.sync() };

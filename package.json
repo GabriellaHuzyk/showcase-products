@@ -6,7 +6,8 @@
   "author": "Gabriella Huzyk",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon -r dotenv/config index.js",
+    "test": "jest --setupFilesAfterEnv ./jest.setup.js"
   },
   "dependencies": {
     "axios": "^0.21.4",
@@ -19,5 +20,9 @@
   },
   "optionalDependencies": {
     "fsevents": "^2.3.2"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0",
+    "jest": "^27.2.4"
   }
 }

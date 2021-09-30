@@ -1,7 +1,7 @@
 const config = {
   host: "localhost",
   dialect: "sqlite",
-  storage: "./database.sqlite",
+  storage: process.env.DATABASE,
 };
 
 module.exports = config;

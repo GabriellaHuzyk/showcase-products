@@ -29,4 +29,4 @@ User.associate = (models) => {
   });
 };
 
-sequelize.sync();
+module.exports = { User, sync: () => sequelize.sync() };

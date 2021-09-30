@@ -1,12 +1,14 @@
 const sequelize = require("sequelize");
-const Model = require("../models/user_model");
+const { User } = require("../models/user_model");
 
 class UserRepository {
-  async userRepository({ user }, { password }) {
-    const users = await Model.findAll({
+  async userRepository({ user }) {
+    const users = await User.findAll({
       where: { userEmail: user },
     });
-    if (!users) {
+
+    // acho que aqui tava o erro
+    if (users) {
       return users;
     }
 
