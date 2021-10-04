@@ -1,16 +1,17 @@
+const { nextTick } = require("process");
 const sequelize = require("sequelize");
-const Model = require("../models/user_model");
+const { User } = require("../models/user_model");
 
 class UserRepository {
-  async userRepository({ user }, { password }) {
-    const users = await Model.findAll({
-      where: { userEmail: user },
+  async userFind({ userEmail, password }) {
+    const find = await User.findAll({
+      where: { userEmail: userEmail },
     });
-    if (!users) {
-      return users;
+    if (find.index >= 0) {
+      throw new Error("User allready exist.");
     }
-
-    throw new Error("Deu ruim no repo");
+    return await User.create({ userEmail, password });
   }
 }
+
 module.exports = UserRepository;

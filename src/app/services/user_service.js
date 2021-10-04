@@ -1,22 +1,21 @@
+const { User } = require("../models/user_model");
 const UserRepo = require("../repositories/user_repo");
 
 const repo = new UserRepo();
 
 class UserService {
-  async userValidate({ user }, { password }) {
+  async userValidate({ userEmail, password }) {
     const userRegex = /\S+@\S+\.\S+/;
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{4,}$/;
+    const passwordRegex = /^[^\W_]{4}$/;
+    //quatro dígitos pelo menos, sendo 1 letra e 1 número.
+    if (!userRegex.test(String(userEmail).toLowerCase())) {
+      console.log("Invalid email or password.");
+    }
 
-    if (userRegex.test(String({ user }).toLowerCase())) {
-      console.log("success");
+    if (!passwordRegex.test(String(password))) {
+      console.log("Invalid email or password.");
     }
-    //quatro números pelo menos, sendo 1 maiúscula e 1 minúscula.
-    if (passwordRegex.test(String({ password }))) {
-      console.log("success");
-      return await repo.userRepository({ user }, { password });
-    } else {
-      //throw new Error("Deu ruim no service");
-    }
+    return await repo.userFind({ userEmail, password });
   }
 }
 module.exports = UserService;

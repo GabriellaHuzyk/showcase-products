@@ -4,12 +4,11 @@ const UserService = require("../services/user_service");
 const service = new UserService();
 
 class UserController {
-  async userController(req, res) {
-    const { user, password } = req.params;
-
+  async userController({ userEmail, password }) {
     try {
-      const users = await service.userValidate({ user }, { password });
-      return users.json();
+      const result = await service.userValidate({ userEmail, password });
+
+      return result.dataValues;
     } catch (error) {
       console.error(error);
     }

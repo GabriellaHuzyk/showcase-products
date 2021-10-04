@@ -4,14 +4,13 @@ const Service = require("../services/api_service");
 const service = new Service();
 
 class ApiController {
-  async apiController() {
-    console.log("entrou no controller");
+  async apiRequest() {
     const url = "https://fakestoreapi.com/products";
 
     try {
-      const response = await service.apiService(url);
+      const result = await service.apiRequest(url);
 
-      return response.json();
+      return result;
     } catch (error) {
       console.error(error);
     }

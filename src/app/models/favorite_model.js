@@ -3,7 +3,7 @@ const configSequelize = require("../../config/sequelize");
 
 const sequelize = new Sequelize(configSequelize);
 
-const Favorite = sequelize.define("Favorite", {
+const Favorite = sequelize.define("Favorites", {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -26,7 +26,9 @@ Favorite.associate = (models) => {
   Favorite.belongsTo(models.User, {
     foreignKey: "user_id",
     as: "Users",
+    onUpdate: "CASCADE",
+    onDelite: "CASCADE",
   });
 };
 
-sequelize.sync();
+module.exports = { Favorite, sync: () => sequelize.sync({ foce: true }) };
