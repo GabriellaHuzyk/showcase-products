@@ -1,5 +1,5 @@
 {
-  "name": "showcase-aftersale",
+  "name": "showcase-products",
   "version": "1.0.0",
   "description": "This is a showcase application of products with a public api how Fake Store Api",
   "main": "index.js",
