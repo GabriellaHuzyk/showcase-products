@@ -1,9 +1,10 @@
 const { Sequelize } = require("sequelize");
-const configSequelize = require("../../config/sequelize");
+const config = require("../../config/database.json");
+//const configSequelize = require("../../config/sequelize");
 
-const sequelize = new Sequelize(configSequelize);
+const sequelize = new Sequelize(config);
 
-const Favorite = sequelize.define("Favorites", {
+const Favorite = sequelize.define("Favorite", {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -31,4 +32,4 @@ Favorite.associate = (models) => {
   });
 };
 
-module.exports = { Favorite, sync: () => sequelize.sync({ foce: true }) };
+module.exports = { Favorite, sync: () => sequelize.sync() };

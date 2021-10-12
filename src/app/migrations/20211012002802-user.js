@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const user = await queryInterface.createTable("Users", {
+    await queryInterface.createTable("users", {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -20,18 +20,9 @@ module.exports = {
         allowNull: false,
       },
     });
-    User.associate = (models) => {
-      User.hasOne(models.Favorite, {
-        foreignKey: "user_id",
-        as: "Favorites",
-        onUpdate: "CASCADE",
-        onDelite: "CASCADE",
-      });
-    };
-    return user;
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("User");
+    await queryInterface.dropTable("users");
   },
 };

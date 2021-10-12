@@ -1,9 +1,10 @@
 const { Sequelize } = require("sequelize");
-const configSequelize = require("../../config/sequelize");
+const config = require("../../config/database.json");
+//const configSequelize = require("../../config/sequelize");
 
-const sequelize = new Sequelize(configSequelize);
+const sequelize = new Sequelize(config);
 
-const User = sequelize.define("Users", {
+const User = sequelize.define("User", {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -29,6 +30,7 @@ User.associate = (models) => {
     onUpdate: "CASCADE",
     onDelite: "CASCADE",
   });
+  return User;
 };
 
-module.exports = { User, sync: () => sequelize.sync({ foce: true }) };
+module.exports = { User, sync: () => sequelize.sync() };

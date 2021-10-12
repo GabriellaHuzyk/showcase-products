@@ -20,7 +20,6 @@ class ApiRepository {
     const array = result.data.map((product) => {
       return [product.id, product.title, product.price];
     });
-    return array;
   }
 }
 
