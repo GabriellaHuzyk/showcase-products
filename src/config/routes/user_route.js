@@ -15,7 +15,7 @@ router.post("/login", async (req, res, next) => {
   const { userEmail, password } = req.body;
   authenticate({ userEmail, password }, next);
   const result = await controller.login({ userEmail, password });
-  return res.redirect("/favorites");
+  return res.json(result);
 });
 
 router.get("/logout", function (req, res) {

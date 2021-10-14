@@ -18,19 +18,8 @@ class UserRepository {
     return user;
   }
 
-  async authenticate({ userEmail, password }) {
-    /*
-    const user = await User.findOne({ where: { userEmail: userEmail } });
-
-    if (!user) throw new Error("User not exists.");
-
-    const passwordMatch = compareSync(password, user.password);
-    console.log(passwordMatch);
-
-    if (!passwordMatch) throw new Error("Incorrect username or password.");
-
-    return true;
-  */
+  async login({ userEmail, password }) {
+    return await User.findOne({ where: { userEmail: userEmail } });
   }
 
   async listUsers() {

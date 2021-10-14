@@ -1,4 +1,5 @@
 const path = require("path");
+const Sequelize = require("sequelize");
 
 module.exports = {
   config: path.resolve("src", "config", "database.json"),

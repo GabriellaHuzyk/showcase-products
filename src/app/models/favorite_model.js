@@ -1,35 +1,36 @@
-const { Sequelize } = require("sequelize");
-const config = require("../../config/database.json");
-//const configSequelize = require("../../config/sequelize");
-
-const sequelize = new Sequelize(config);
-
-const Favorite = sequelize.define("Favorite", {
-  id: {
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-    allowNull: false,
-  },
-
-  name: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-
-  price: {
-    type: Sequelize.FLOAT,
-    allowNull: false,
-  },
-});
-
-Favorite.associate = (models) => {
-  Favorite.belongsTo(models.User, {
-    foreignKey: "user_id",
-    as: "Users",
-    onUpdate: "CASCADE",
-    onDelite: "CASCADE",
-  });
+"use strict";
+const { Model } = require("sequelize");
+module.exports = (sequelize, DataTypes) => {
+  class Favorite extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      Favorite.belongsTo(models.User, {
+        foreignKey: "user_id",
+        as: "Users",
+        onUpdate: "CASCADE",
+        onDelite: "CASCADE",
+      });
+    }
+  }
+  Favorite.init(
+    {
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      price: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+      },
+    },
+    {
+      sequelize,
+      modelName: "Favorite",
+    }
+  );
+  return Favorite;
 };
-
-module.exports = { Favorite, sync: () => sequelize.sync() };
