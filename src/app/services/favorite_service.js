@@ -1,18 +1,18 @@
 const Repository = require("../repositories/favorite_repo");
-const ApiRepo = require("../repositories/api_repo");
 
 const repo = new Repository();
-const api = new ApiRepo();
 
 class FavoriteService {
-  async userValidate() {
-    return await repo.favoriteList();
+  async favoriteList(token) {
+    return await repo.list(token);
   }
 
-  async favoriteAdd(product_id) {
-    const result = await repo.addFavorite(product_id);
+  async favoriteAdd(product_id, token) {
+    return await repo.add(product_id, token);
+  }
 
-    return result;
+  async favoriteDelete(product_id, token) {
+    return await repo.delete(product_id, token);
   }
 }
 

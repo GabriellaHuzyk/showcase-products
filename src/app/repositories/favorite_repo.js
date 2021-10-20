@@ -1,25 +1,69 @@
-const sequelize = require("sequelize");
-const { Favorite } = require("../models/favorite_model");
+const Favorite = require("../models").Favorite;
 const { default: axios } = require("axios");
 
-class FavoriteRepo {
-  async favoriteList() {
-    const result = await Favorite.findAll();
+const jwt = require("jsonwebtoken");
+const SECRET = "showcasegabriella";
 
-    return result;
+class FavoriteRepo {
+  async list(token) {
+    const decoded = await jwt.verify(token, SECRET);
+    var userId = decoded.id;
+
+    const found = await Favorite.findOne({ where: { user_id: userId } });
+
+    if (!found) {
+      throw { success: false, message: "Favorites list is empty" };
+    }
+
+    const result = await Favorite.findAndCountAll();
+
+    const product = result.rows.map((result) => {
+      return { id: result.dataValues.id, title: result.dataValues.title, price: result.dataValues.price };
+    });
+    return product;
   }
 
-  async addFavorite(product_id) {
+  async add(product_id, token) {
+    const decoded = await jwt.verify(token, SECRET);
+    var userId = decoded.id;
+
+    if (decoded == false) throw { success: false, message: "Invalid token." };
+
     const url = "https://fakestoreapi.com/products";
     const result = await axios.get(url);
 
-    const product = result.data.find((product) => {
+    const product = await result.data.find((product) => {
       return product.id == product_id;
     });
 
-    if (!product) throw new Error("Error.");
+    if (typeof product === "undefined") {
+      throw {
+        success: false,
+        message: "This product id not exists",
+      };
+    }
+    const foundProductId = await Favorite.findOne({ where: { id: product_id } });
 
-    return await Favorite.create({ id: product.id, name: product.title, price: product.price });
+    if (foundProductId) throw { success: false, message: "This favorite already exists." };
+
+    return await Favorite.create({ id: product.id, title: product.title, price: product.price, user_id: userId });
+  }
+
+  async delete(product_id, token) {
+    const decoded = await jwt.verify(token, SECRET);
+    var userId = decoded.id;
+
+    const foundId = await Favorite.findAndCountAll({ where: { user_id: userId } });
+
+    if (foundId.INDEX < 0) {
+      throw { success: false, message: "Favorites list is empty" };
+    }
+
+    const result = await Favorite.destroy({ where: { id: product_id, user_id: userId } });
+
+    if (!result) throw { success: false, message: "Product not found." };
+
+    return result;
   }
 }
 

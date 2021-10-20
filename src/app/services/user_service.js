@@ -2,41 +2,43 @@ const UserRepo = require("../repositories/user_repo");
 const { compareSync } = require("bcryptjs");
 const { sign } = require("jsonwebtoken");
 
+const SECRET = "showcasegabriella";
+
 const repo = new UserRepo();
 
 class UserService {
-  async validate({ userEmail, password }) {
+  async validate({ userName, userEmail, password }) {
     const userRegex = /\S+@\S+\.\S+/;
     const passwordRegex = /^[^\W_]{4}$/;
 
-    //quatro dígitos pelo menos, sendo 1 letra e 1 número.
+    //até quatro dígitos, sendo 1 letra e 1 número.
     if (!userRegex.test(String(userEmail).toLowerCase())) {
-      console.log("Invalid email or password.");
+      throw { success: false, message: "Invalid email or password." };
     }
 
     if (!passwordRegex.test(String(password))) {
-      console.log("Invalid email or password.");
+      throw { success: false, message: "Invalid email or password." };
     }
 
-    return await repo.findCreate({ userEmail, password });
+    return await repo.findCreate({ userName, userEmail, password });
   }
 
-  async login({ userEmail, password }) {
-    const user = await repo.login({ userEmail });
+  async login({ userName, userEmail, password }) {
+    const user = await repo.login({ userName, userEmail, password });
 
-    if (!user) throw new Error("Incorrect username or password.");
+    if (!user || user == null) throw { success: false, message: "Incorrect username." };
 
     const passwordMatch = compareSync(password, user.password);
 
-    if (!passwordMatch) throw new Error("Incorrect username or password.");
+    if (!passwordMatch) throw { success: false, message: "Incorrect password." };
 
     const token = sign(
       {
-        userEmail: user.userEmail,
+        email: userEmail,
+        id: user.id,
       },
-      "bb946b77d56bb2872677065b2440c58f",
+      SECRET,
       {
-        subject: user.id,
         expiresIn: "1d",
       }
     );

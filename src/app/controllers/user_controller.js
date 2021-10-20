@@ -1,35 +1,39 @@
 const express = require("express");
 const UserService = require("../services/user_service");
-const bcrypt = require("bcryptjs");
 
 const service = new UserService();
 
 class UserController {
-  async register({ userEmail, password }) {
+  async register(req, res) {
+    const { userName, userEmail, password } = req.body;
     try {
-      const result = await service.validate({ userEmail, password });
+      const result = await service.validate({ userName, userEmail, password });
 
-      return result.dataValues;
+      return res.status(200).json(result);
     } catch (error) {
-      console.error(error);
+      console.log(error);
+      return res.status(404).json(error);
     }
   }
 
-  async login({ userEmail, password }) {
+  async login(req, res) {
+    const { userEmail, password } = req.body;
     try {
       const result = await service.login({ userEmail, password });
-      return result;
+
+      return res.status(200).json({ auth: true, result });
     } catch (error) {
-      console.log(error);
+      return res.status(404).json(error);
     }
   }
 
-  async listUsers() {
+  async listUsers(req, res) {
     try {
       const result = await service.listUsers();
-      return result;
+
+      return res.status(200).json(result);
     } catch (error) {
-      console.log(error);
+      return res.status(404).json(error);
     }
   }
 }
