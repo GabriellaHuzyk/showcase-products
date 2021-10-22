@@ -11,7 +11,6 @@ class FavoriteController {
 
       res.status(200).json({ success: true, result }).end();
     } catch (error) {
-      console.log(error);
       return res.status(404).json(error);
     }
   }
@@ -24,7 +23,6 @@ class FavoriteController {
 
       return res.status(200).json({ success: true, message: "Favorite added." }).end();
     } catch (error) {
-      console.log(error);
       return res.status(404).json(error);
     }
   }

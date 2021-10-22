@@ -5,8 +5,6 @@ const ApiController = require("../../app/controllers/api_controller");
 const apiController = new ApiController();
 
 router.get("/products", async (req, res) => {
-  const result = await apiController.apiRequest(req, res);
-
-  return res.json(result);
+  await apiController.apiRequest(req, res);
 });
 module.exports = router;
