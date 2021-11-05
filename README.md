@@ -1,6 +1,6 @@
 <h1 align="center"> :shirt: Vitrine de produtos</h1>
 
-Este projeto tem como objetivo permitir que o usuário favorite e desfavorite produtos, criando a sua própria lista de favoritos.
+Este projeto tem como objetivo simular uma loja virtual, permitindo que o usuário logue, favorite e desfavorite produtos, criando a sua própria lista de favoritos.
 
 <h4 align="center"> 
 	🚧  Em construção...  🚧
