@@ -5,9 +5,8 @@ const service = new Service();
 
 class FavoriteController {
   async favoriteList(req, res) {
-    const token = req.headers.authorization;
     try {
-      const result = await service.favoriteList(token);
+      const result = await service.favoriteList(req.decoded);
 
       res.status(200).json({ success: true, result }).end();
     } catch (error) {
@@ -16,14 +15,13 @@ class FavoriteController {
   }
 
   async favoriteAdd(req, res) {
-    const token = req.headers.authorization;
     const { product_id } = req.params;
     try {
-      const result = await service.favoriteAdd(product_id, token);
+      const result = await service.favoriteAdd(product_id, req.decoded);
 
       return res.status(200).json({ success: true, message: "Favorite added." }).end();
     } catch (error) {
-      return res.status(404).json(error);
+      console.log(error); //return res.status(404).json(error);
     }
   }
 
@@ -31,7 +29,7 @@ class FavoriteController {
     const token = req.headers.authorization;
     const { product_id } = req.params;
     try {
-      const result = await service.favoriteDelete(product_id, token);
+      const result = await service.favoriteDelete(product_id, req.decoded);
 
       return res.status(200).json({ success: true, message: "Favorite deleted." }).end();
     } catch (error) {

@@ -1,35 +1,24 @@
 const Favorite = require("../models").Favorite;
 const { default: axios } = require("axios");
 
-const jwt = require("jsonwebtoken");
-const SECRET = "showcasegabriella";
-
 class FavoriteRepo {
-  async list(token) {
-    const decoded = await jwt.verify(token, SECRET);
-    var userId = decoded.id;
+  async list(decoded) {
+    const result = await Favorite.findAndCountAll({ where: { user_id: decoded } });
 
-    const found = await Favorite.findOne({ where: { user_id: userId } });
-
-    if (!found) {
-      throw { success: false, message: "Favorites list is empty" };
-    }
-
-    const result = await Favorite.findAndCountAll({ where: { user_id: userId } });
+    if (!result) throw { success: false, message: "Favorites list is empty" };
 
     const product = result.rows.map((result) => {
-      return { id: result.dataValues.id, title: result.dataValues.title, price: result.dataValues.price };
+      return {
+        id: result.dataValues.id,
+        product_id: result.dataValues.product_id,
+        title: result.dataValues.title,
+        price: result.dataValues.price,
+      };
     });
     return product;
   }
 
-  async add(product_id, token) {
-    const decoded = await jwt.verify(token, SECRET);
-
-    if (decoded == false) throw { success: false, message: "Invalid token." };
-
-    var userId = decoded.id;
-
+  async add(product_id, decoded) {
     const url = "https://fakestoreapi.com/products";
     const result = await axios.get(url);
 
@@ -43,28 +32,28 @@ class FavoriteRepo {
         message: "This product id not exists",
       };
     }
-    const foundProductId = await Favorite.findOne({ where: { id: product_id, user_id: userId } });
-    console.log(foundProductId);
+    console.log("REPO DECOD.", decoded);
+    const foundData = await Favorite.findOne({ where: { product_id: product_id, user_id: decoded } });
 
-    if (foundProductId) throw { success: false, message: "This favorite already exists." };
+    if (foundData) throw { success: false, message: "This favorite already exists." };
 
-    return await Favorite.create({ id: product.id, title: product.title, price: product.price, user_id: userId });
+    return await Favorite.create({
+      id: Favorite.id,
+      product_id: product.id,
+      title: product.title,
+      price: product.price,
+      user_id: decoded,
+    });
   }
 
-  async delete(product_id, token) {
-    const decoded = await jwt.verify(token, SECRET);
-
-    if (decoded == false) throw { success: false, message: "Invalid token." };
-
-    var userId = decoded.id;
-
-    const foundId = await Favorite.findOne({ where: { user_id: userId } });
+  async delete(product_id, decoded) {
+    const foundId = await Favorite.findOne({ where: { user_id: decoded } });
 
     if (foundId.INDEX < 0) {
       throw { success: false, message: "Favorites list is empty" };
     }
 
-    const result = await Favorite.destroy({ where: { id: product_id, user_id: userId } });
+    const result = await Favorite.destroy({ where: { product_id: product_id, user_id: decoded } });
 
     if (!result) throw { success: false, message: "Favorite not found." };
 

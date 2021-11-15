@@ -6,7 +6,7 @@ class ApiRepository {
 
     const items = result.data.map((product) => {
       return {
-        id: product.id,
+        product: product.id,
         title: product.title,
         price: product.price,
       };
