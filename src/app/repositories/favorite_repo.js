@@ -15,7 +15,16 @@ class FavoriteRepo {
         price: result.dataValues.price,
       };
     });
-    return product;
+
+    const amount = product.reduce(getTotal, 0);
+    function getTotal(total, item) {
+      return total + item.price;
+    }
+
+    return {
+      products: product,
+      amount: amount,
+    };
   }
 
   async add(product_id, decoded) {
