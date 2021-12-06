@@ -30,7 +30,7 @@ Este projeto tem como objetivo simular uma loja virtual, permitindo que o usuár
 - [x] Autenticação via web token
 - [x] Hash de senhas
 - [ ] Envio de e-mails
-- [ ] Somar e mostrar valor total na lista de favoritos
+- [x] Somar e mostrar valor total na lista de favoritos
 
 ## :left_right_arrow: Rotas
 #### Produto:
