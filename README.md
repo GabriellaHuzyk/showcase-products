@@ -2,9 +2,6 @@
 
 Este projeto tem como objetivo simular uma loja virtual, permitindo que o usuário logue, favorite e desfavorite produtos, criando a sua própria lista de favoritos.
 
-<h4 align="center"> 
-	🚧  Em construção...  🚧
-</h4>
 
 ### Tabela de conteúdos
 =================
@@ -29,7 +26,6 @@ Este projeto tem como objetivo simular uma loja virtual, permitindo que o usuár
 - [x] Lista de favoritos
 - [x] Autenticação via web token
 - [x] Hash de senhas
-- [ ] Envio de e-mails
 - [x] Somar e mostrar valor total na lista de favoritos
 
 ## :left_right_arrow: Rotas
