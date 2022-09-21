@@ -1,5 +1,7 @@
 name: Node.js CI
 
+webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+
 on:
   push:
     branches: [ "main" ]
@@ -27,16 +29,52 @@ jobs:
           node-version: '16.x'
       - name: Install dependencies
         run: yarn
+      - uses: rjstone/discord-webhook-notify@v1
+        if: success()
+        with:
+          severity: info
+          details: Build Succeeded!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - uses: rjstone/discord-webhook-notify@v1
+        if: failure()
+        with:
+          severity: error
+          details: Build Failed!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
         
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - run: echo "Testes executados!"
+      - uses: rjstone/discord-webhook-notify@v1
+        if: success()
+        with:
+          severity: info
+          details: Test Succeeded!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - uses: rjstone/discord-webhook-notify@v1
+        if: failure()
+        with:
+          severity: error
+          details: Test Failed!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - run: echo "Finalizado!"
+      - uses: rjstone/discord-webhook-notify@v1
+        if: success()
+        with:
+          severity: info
+          details: Deploy Succeeded!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - uses: rjstone/discord-webhook-notify@v1
+        if: failure()
+        with:
+          severity: error
+          details: Deploy Failed!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
