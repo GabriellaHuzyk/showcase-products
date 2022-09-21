@@ -11,7 +11,7 @@ on:
 jobs:
 
   sast:
-    runs-on: windows-latest
+    runs-on: ''
     steps:
       - uses: AppThreat/sast-scan-action@master
         with:
