@@ -9,6 +9,14 @@ on:
   workflow_dispatch:
   
 jobs:
+
+  sast:
+    runs-on: windows-latest
+    steps:
+      - uses: AppThreat/sast-scan-action@master
+        with:
+          type: "nodejs"
+    
   build:
     runs-on: windows-latest
     steps:
