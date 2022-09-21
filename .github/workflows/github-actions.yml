@@ -1,7 +1,5 @@
 name: Node.js CI
 
-webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-
 on:
   push:
     branches: [ "main" ]
