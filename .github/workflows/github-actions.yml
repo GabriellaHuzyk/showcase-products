@@ -11,14 +11,14 @@ on:
 jobs:
 
   sast:
-    runs-on: ubuntu
+    runs-on: ubuntu-latest
     steps:
       - uses: AppThreat/sast-scan-action@master
         with:
           type: "nodejs"
     
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js
@@ -29,13 +29,13 @@ jobs:
         run: yarn
         
   test:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - run: echo "Testes executados!"
 
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - run: echo "Finalizado!"
